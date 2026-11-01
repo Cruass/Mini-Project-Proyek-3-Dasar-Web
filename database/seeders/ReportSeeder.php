@@ -11,29 +11,29 @@ class ReportSeeder extends Seeder
 {
     public function run(): void
     {
-        $pelapor = User::where('role', 'pelapor')->get();
+        $pelapor = User::where('role', 'pelapor')->orderBy('id')->get();
         $relawan = User::where('email', 'relawan@example.com')->first();
         $areas   = Area::orderBy('id')->get();
 
         // titik dasar koordinat (dummy) per area: [latitude, longitude]
-       $koordinat = [
-        'Kabupaten Bandung'       => [-7.02, 107.52],
-        'Kabupaten Bandung Barat' => [-6.85, 107.49],
-        'Kota Cimahi'             => [-6.88, 107.54],
-        'Kota Bandung'            => [-6.91, 107.61],
-        'Kabupaten Bogor'         => [-6.60, 106.80],
-        ];  
+        $koordinat = [
+            'Kabupaten Bandung'       => [-7.02, 107.52],
+            'Kabupaten Bandung Barat' => [-6.85, 107.49],
+            'Kota Cimahi'             => [-6.88, 107.54],
+            'Kota Bandung'            => [-6.91, 107.61],
+            'Kabupaten Bogor'         => [-6.60, 106.80],
+        ];
 
         $data = [
             ['Asap tebal di area perkebunan', 'Asap putih tebal terlihat dari jalan, api belum terlihat.', 'sedang', 'baru'],
-            ['Api kecil di semak-semak', 'Api kecil di pinggir jalan, angin cukup kencang.', 'ringan', 'baru'],
+            ['Api kecil di semak belukar', 'Api kecil di pinggir jalan, angin cukup kencang.', 'ringan', 'baru'],
             ['Lahan gambut terbakar', 'Api menjalar di lahan gambut, asap sangat pekat.', 'berat', 'baru'],
             ['Bau asap di dekat permukiman', 'Bau asap tercium kuat sejak pagi, sumber belum jelas.', 'ringan', 'baru'],
 
             ['Kebakaran di lahan kosong', 'Api terlihat di lahan kosong dekat kebun warga.', 'sedang', 'ditinjau'],
             ['Asap dari area hutan', 'Asap muncul dari arah hutan sejak sore.', 'sedang', 'ditinjau'],
             ['Titik api di pinggir sungai', 'Api kecil di pinggir sungai, dekat jalan desa.', 'ringan', 'ditinjau'],
-            ['Lahan sawit terbakar sebagian', 'Beberapa pohon sawit terbakar, api masih menyala.', 'berat', 'ditinjau'],
+            ['Lahan sawit terbakar sebagian', 'Beberapa pohon terbakar, api masih menyala.', 'berat', 'ditinjau'],
 
             ['Kebakaran lahan dekat jalan lintas', 'Api cukup besar, mengganggu jarak pandang kendaraan.', 'berat', 'diteruskan'],
             ['Kebakaran semak luas', 'Api menyebar di semak kering seluas lapangan.', 'sedang', 'diteruskan'],
@@ -45,10 +45,10 @@ class ReportSeeder extends Seeder
         ];
 
         foreach ($data as $i => [$judul, $kondisi, $tingkat, $status]) {
-            $area      = $areas[$i % $areas->count()];
-            $user      = $pelapor[$i % $pelapor->count()];
-            $base      = $koordinat[$area->nama];
-            $ditinjau  = $status !== 'baru';
+            $area       = $areas[$i % $areas->count()];
+            $user       = $pelapor[$i % $pelapor->count()];
+            $base       = $koordinat[$area->nama];
+            $ditinjau   = $status !== 'baru';
             $diteruskan = in_array($status, ['diteruskan', 'selesai']);
 
             Report::create([

@@ -37,9 +37,29 @@ public function statusLogs()
     return $this->hasMany(ReportStatusLog::class);
 }
 
-// BR-01: laporan hanya boleh diubah pelapor selama statusnya masih 'baru'
 public function bisaDiedit(): bool
 {
     return $this->status === 'baru';
 }
+
+public function bisaDitinjau(): bool
+{
+    return $this->status === 'baru';
+}
+
+public function bisaDiteruskan(): bool
+{
+    return $this->status === 'ditinjau';
+}
+
+public function bisaDiselesaikan(): bool
+{
+    return $this->status === 'diteruskan';
+}
+
+public function punyaCatatanRelawan(): bool
+{
+    return filled($this->catatan_relawan);
+}
+
 }

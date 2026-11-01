@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
 use App\Models\Area;
+use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
@@ -29,7 +31,7 @@ class ReportController extends Controller
     public function store(ReportRequest $request)
     {
         $data = $request->validated();
-        unset($data['evidence']); 
+        unset($data['evidence']);
 
         if ($request->hasFile('evidence')) {
             $data['evidence_path'] = $request->file('evidence')->store('evidence', 'public');
@@ -41,18 +43,18 @@ class ReportController extends Controller
             ->with('success', 'Laporan berhasil dikirim.');
     }
 
-    public function show(Request $request, $id)
+    public function show(Report $report)
     {
-        $report = $request->user()->reports()
-            ->with(['area', 'reviewer'])
-            ->findOrFail($id);
+        Gate::authorize('view', $report);
+
+        $report->load(['area', 'reviewer']);
 
         return view('reports.show', compact('report'));
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Report $report)
     {
-        $report = $request->user()->reports()->findOrFail($id);
+        Gate::authorize('update', $report);
 
         if (! $report->bisaDiedit()) {
             abort(403, 'Laporan yang sudah diproses tidak dapat diubah.');
@@ -63,9 +65,9 @@ class ReportController extends Controller
         return view('reports.edit', compact('report', 'areas'));
     }
 
-    public function update(ReportRequest $request, $id)
+    public function update(ReportRequest $request, Report $report)
     {
-        $report = $request->user()->reports()->findOrFail($id);
+        Gate::authorize('update', $report);
 
         if (! $report->bisaDiedit()) {
             abort(403, 'Laporan yang sudah diproses tidak dapat diubah.');
@@ -83,7 +85,7 @@ class ReportController extends Controller
 
         $report->update($data);
 
-        return redirect()->route('reports.show', $report->id)
+        return redirect()->route('reports.show', $report)
             ->with('success', 'Laporan berhasil diperbarui.');
     }
 }

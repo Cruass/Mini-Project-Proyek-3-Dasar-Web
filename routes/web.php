@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportMonitorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,4 +24,13 @@ Route::middleware(['auth', 'role:pelapor'])->group(function () {
         ->only(['index', 'create', 'store', 'show', 'edit', 'update']);
 });
 
+Route::middleware(['auth', 'role:relawan,koordinator'])
+    ->prefix('pemantauan')
+    ->name('monitor.')
+    ->group(function () {
+        Route::get('/reports', [ReportMonitorController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{report}', [ReportMonitorController::class, 'show'])->name('reports.show');
+        Route::post('/reports/{report}/review', [ReportMonitorController::class, 'review'])->name('reports.review');
+    });
+    
 require __DIR__.'/auth.php';
