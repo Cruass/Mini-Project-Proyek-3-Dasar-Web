@@ -10,11 +10,11 @@ class AreaSeeder extends Seeder
     public function run(): void
     {
         $areas = [
-            'Kabupaten Pelalawan',
-            'Kabupaten Kapuas',
-            'Kabupaten Ogan Komering Ilir',
-            'Kabupaten Kubu Raya',
-            'Kabupaten Muaro Jambi',
+        'Kabupaten Bandung',
+        'Kabupaten Bandung Barat',
+        'Kota Cimahi',
+        'Kota Bandung',
+        'Kabupaten Bogor',
         ];
 
         foreach ($areas as $nama) {

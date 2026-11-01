@@ -16,13 +16,13 @@ class ReportSeeder extends Seeder
         $areas   = Area::orderBy('id')->get();
 
         // titik dasar koordinat (dummy) per area: [latitude, longitude]
-        $koordinat = [
-            'Kabupaten Bandung'          => [-0.35, 102.10],
-            'Kabupaten Bandung Barat'             => [-2.90, 114.40],
-            'Kota Cimahi' => [-3.40, 105.20],
-            'Kota Bandung'          => [-0.20, 109.40],
-            'Kabupaten Bogor'        => [-1.60, 103.60],
-        ];
+       $koordinat = [
+        'Kabupaten Bandung'       => [-7.02, 107.52],
+        'Kabupaten Bandung Barat' => [-6.85, 107.49],
+        'Kota Cimahi'             => [-6.88, 107.54],
+        'Kota Bandung'            => [-6.91, 107.61],
+        'Kabupaten Bogor'         => [-6.60, 106.80],
+        ];  
 
         $data = [
             ['Asap tebal di area perkebunan', 'Asap putih tebal terlihat dari jalan, api belum terlihat.', 'sedang', 'baru'],

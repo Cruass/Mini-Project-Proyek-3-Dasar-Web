@@ -36,4 +36,10 @@ public function statusLogs()
 {
     return $this->hasMany(ReportStatusLog::class);
 }
+
+// BR-01: laporan hanya boleh diubah pelapor selama statusnya masih 'baru'
+public function bisaDiedit(): bool
+{
+    return $this->status === 'baru';
+}
 }
