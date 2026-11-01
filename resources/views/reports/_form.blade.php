@@ -10,6 +10,7 @@
             @endforeach
         </select>
         <x-input-error :messages="$errors->get('area_id')" class="mt-2" />
+        <div id="area-info" class="hidden mt-2 p-3 text-sm bg-blue-50 text-blue-800 rounded"></div>
     </div>
 
     <div>
@@ -67,3 +68,44 @@
         <x-input-error :messages="$errors->get('evidence')" class="mt-2" />
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('area_id');
+    const info = document.getElementById('area-info');
+    const urlTemplate = @json(route('areas.summary', ['area' => '__ID__']));
+
+    async function muatInfoWilayah() {
+        const id = select.value;
+
+        if (!id) {
+            info.classList.add('hidden');
+            return;
+        }
+
+        info.classList.remove('hidden');
+        info.textContent = 'Memuat informasi wilayah...';
+
+        try {
+            const response = await fetch(urlTemplate.replace('__ID__', id), {
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (!response.ok) {
+                throw new Error('Status ' + response.status);
+            }
+
+            const data = await response.json();
+
+            info.textContent =
+                data.area + ': ' + data.jumlah_aktif + ' laporan aktif ' +
+                '(ringan ' + data.ringan + ', sedang ' + data.sedang + ', berat ' + data.berat + '). ' +
+                'Kejadian terakhir: ' + (data.terakhir ?? '-') + '.';
+        } catch (error) {
+            info.textContent = 'Gagal memuat informasi wilayah.';
+        }
+    }
+
+    select.addEventListener('change', muatInfoWilayah);
+    muatInfoWilayah(); 
+});
+</script>
