@@ -54,4 +54,44 @@ class ReportMonitorController extends Controller
         return redirect()->route('monitor.reports.show', $report)
             ->with('success', 'Laporan berhasil ditandai sebagai ditinjau.');
     }
+
+    public function forward(Request $request, Report $report)
+    {
+        Gate::authorize('forward', $report);
+
+        $request->validate([
+            'diteruskan_ke' => ['required', 'string', 'min:3', 'max:150'],
+        ]);
+
+        if (! $report->bisaDiteruskan()) {
+            return back()->with('error', 'Hanya laporan berstatus ditinjau yang dapat diteruskan.');
+        }
+
+        if (! $report->punyaCatatanRelawan()) {
+            return back()->with('error', 'Laporan belum memiliki catatan relawan sehingga belum dapat diteruskan.');
+        }
+
+        $report->update([
+            'status'          => 'diteruskan',
+            'diteruskan_ke'   => $request->diteruskan_ke,
+            'diteruskan_pada' => now(),
+        ]);
+
+        return redirect()->route('monitor.reports.show', $report)
+            ->with('success', 'Penerusan informasi berhasil dicatat.');
+    }
+
+    public function finish(Request $request, Report $report)
+    {
+        Gate::authorize('finish', $report);
+
+        if (! $report->bisaDiselesaikan()) {
+            return back()->with('error', 'Hanya laporan berstatus diteruskan yang dapat ditandai selesai.');
+        }
+
+        $report->update(['status' => 'selesai']);
+
+        return redirect()->route('monitor.reports.show', $report)
+            ->with('success', 'Laporan ditandai selesai.');
+    }
 }

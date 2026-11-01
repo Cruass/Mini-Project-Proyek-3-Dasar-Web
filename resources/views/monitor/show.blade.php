@@ -64,6 +64,41 @@
                 </div>
             </div>
 
+            @can('forward', $report)
+                @if ($report->bisaDiteruskan())
+                    <div class="bg-white shadow rounded p-6">
+                        <h4 class="font-semibold mb-3">Catat penerusan informasi</h4>
+                        @unless ($report->punyaCatatanRelawan())
+                            <p class="mb-3 text-sm text-red-700">Laporan belum memiliki catatan relawan, sehingga belum dapat diteruskan.</p>
+                        @endunless
+                        <form method="POST" action="{{ route('monitor.reports.forward', $report) }}">
+                            @csrf
+                            <x-input-label for="diteruskan_ke" value="Diteruskan kepada (pihak terkait)" />
+                            <x-text-input id="diteruskan_ke" name="diteruskan_ke" type="text" class="mt-1 block w-full"
+                                :value="old('diteruskan_ke')" placeholder="Contoh: BPBD setempat" required />
+                            <x-input-error :messages="$errors->get('diteruskan_ke')" class="mt-2" />
+
+                            <div class="mt-4">
+                                <x-primary-button>Catat Diteruskan</x-primary-button>
+                            </div>
+                        </form>
+                    </div>
+                @endif
+            @endcan
+
+            @can('finish', $report)
+                @if ($report->bisaDiselesaikan())
+                    <div class="bg-white shadow rounded p-6">
+                        <h4 class="font-semibold mb-3">Selesaikan laporan</h4>
+                        <p class="mb-3 text-sm text-gray-600">Selesai berarti proses pada aplikasi komunitas telah selesai, bukan pernyataan resmi bahwa kebakaran telah padam.</p>
+                        <form method="POST" action="{{ route('monitor.reports.finish', $report) }}">
+                            @csrf
+                            <x-primary-button>Tandai Selesai</x-primary-button>
+                        </form>
+                    </div>
+                @endif
+            @endcan
+
             @can('review', $report)
                 @if ($report->bisaDitinjau())
                     <div class="bg-white shadow rounded p-6">

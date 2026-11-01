@@ -23,4 +23,14 @@ class ReportPolicy
     {
         return $user->isRelawan();
     }
+
+    public function forward(User $user, Report $report): bool
+    {
+        return $user->isKoordinator();
+    }
+
+    public function finish(User $user, Report $report): bool
+    {
+        return $user->isKoordinator();
+    }
 }

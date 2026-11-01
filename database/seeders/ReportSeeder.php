@@ -12,7 +12,7 @@ class ReportSeeder extends Seeder
     public function run(): void
     {
         $pelapor = User::where('role', 'pelapor')->orderBy('id')->get();
-        $relawan = User::where('email', 'relawan@example.com')->first();
+        $relawan = User::where('email', 'relawan@gmail.com')->first();
         $areas   = Area::orderBy('id')->get();
 
         // titik dasar koordinat (dummy) per area: [latitude, longitude]
@@ -62,7 +62,7 @@ class ReportSeeder extends Seeder
                 'longitude'       => $base[1] + ($i * 0.01),
                 'waktu_kejadian'  => now()->subDays(14 - $i),
                 'status'          => $status,
-                'catatan_relawan' => $ditinjau ? 'Informasi sudah ditinjau dan tampak wajar.' : null,
+                'catatan_relawan' => ($ditinjau && $i !== 6) ? 'Informasi sudah ditinjau dan tampak wajar.' : null, // $i === 6: data uji BR-03 (ditinjau tanpa catatan)
                 'diteruskan_ke'   => $diteruskan ? 'BPBD setempat' : null,
                 'diteruskan_pada' => $diteruskan ? now()->subDays(max(1, 12 - $i)) : null,
             ]);

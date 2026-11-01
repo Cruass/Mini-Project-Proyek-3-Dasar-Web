@@ -33,6 +33,8 @@ Route::middleware(['auth', 'role:relawan,koordinator'])
         Route::get('/reports', [ReportMonitorController::class, 'index'])->name('reports.index');
         Route::get('/reports/{report}', [ReportMonitorController::class, 'show'])->name('reports.show');
         Route::post('/reports/{report}/review', [ReportMonitorController::class, 'review'])->name('reports.review');
+        Route::post('/reports/{report}/forward', [ReportMonitorController::class, 'forward'])->name('reports.forward');
+        Route::post('/reports/{report}/finish', [ReportMonitorController::class, 'finish'])->name('reports.finish');
         Route::get('/rekap', [ReportRecapController::class, 'index'])->name('recap');
     });
 
