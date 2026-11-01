@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportMonitorController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\ReportRecapController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,7 @@ Route::middleware(['auth', 'role:relawan,koordinator'])
         Route::get('/reports', [ReportMonitorController::class, 'index'])->name('reports.index');
         Route::get('/reports/{report}', [ReportMonitorController::class, 'show'])->name('reports.show');
         Route::post('/reports/{report}/review', [ReportMonitorController::class, 'review'])->name('reports.review');
+        Route::get('/rekap', [ReportRecapController::class, 'index'])->name('recap');
     });
 
     Route::middleware('auth')->get('/areas/{area}/summary', [AreaController::class, 'summary'])

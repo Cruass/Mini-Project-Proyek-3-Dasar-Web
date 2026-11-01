@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('monitor.reports.index')" :active="request()->routeIs('monitor.*')">
                             Pemantauan
                         </x-nav-link>
+                        <x-nav-link :href="route('monitor.recap')" :active="request()->routeIs('monitor.recap')">
+                            Rekap
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -92,6 +95,9 @@
             @if (auth()->user()->isRelawan() || auth()->user()->isKoordinator())
                 <x-responsive-nav-link :href="route('monitor.reports.index')" :active="request()->routeIs('monitor.*')">
                     Pemantauan
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('monitor.recap')" :active="request()->routeIs('monitor.recap')">
+                    Rekap
                 </x-responsive-nav-link>
             @endif
         </div>
