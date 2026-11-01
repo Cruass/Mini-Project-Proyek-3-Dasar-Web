@@ -47,6 +47,20 @@
 
                 <div class="pt-3">
                     <a href="{{ route('monitor.reports.index') }}" class="text-sm text-gray-600 underline">&larr; Kembali</a>
+                    @if ($report->statusLogs->isNotEmpty())
+    <div class="bg-white shadow rounded p-6">
+        <h4 class="font-semibold mb-3">Riwayat status</h4>
+        <ul class="text-sm space-y-1">
+            @foreach ($report->statusLogs->sortByDesc('created_at') as $log)
+                <li>
+                    {{ $log->created_at->format('d M Y H:i') }}:
+                    {{ $log->status_lama ?? '-' }} &rarr; {{ $log->status_baru }}
+                    oleh {{ $log->user?->name ?? 'sistem' }}
+                </li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                 </div>
             </div>
 

@@ -28,7 +28,7 @@ class ReportMonitorController extends Controller
     {
         Gate::authorize('view', $report);
 
-        $report->load(['area', 'pelapor', 'reviewer']);
+        $report->load(['area', 'pelapor', 'reviewer', 'statusLogs.user']);
 
         return view('monitor.show', compact('report'));
     }
