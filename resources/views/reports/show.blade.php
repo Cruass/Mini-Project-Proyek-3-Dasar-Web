@@ -19,6 +19,9 @@
                 @endif
 
                 <div class="pt-3">
+                    @if ($report->bisaDiedit())
+                        <a href="{{ route('reports.edit', $report->id) }}" class="mr-3 px-3 py-1 bg-yellow-500 text-gray-600 underline">Edit</a>
+                    @endif
                     <a href="{{ route('reports.index') }}" class="text-sm text-gray-600 underline">&larr; Kembali</a>
                 </div>
             </div>

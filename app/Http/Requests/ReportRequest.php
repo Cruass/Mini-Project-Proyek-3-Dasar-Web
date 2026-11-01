@@ -15,6 +15,15 @@ class ReportRequest extends FormRequest
     return true;
 }
 
+public function messages(): array
+{
+    return [
+        'evidence.mimes'    => 'Bukti harus berupa file JPG, JPEG, PNG, atau PDF.',
+        'evidence.max'      => 'Ukuran bukti maksimal 2 MB.',
+        'evidence.uploaded' => 'File gagal diunggah, periksa ukurannya (maksimal 2 MB).',
+    ];
+}
+
 public function rules(): array
 {
     return [
@@ -25,6 +34,7 @@ public function rules(): array
         'latitude'       => ['required', 'numeric', 'between:-90,90'],
         'longitude'      => ['required', 'numeric', 'between:-180,180'],
         'waktu_kejadian' => ['required', 'date', 'before_or_equal:now'],
+        'evidence' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
     ];
 }
 }

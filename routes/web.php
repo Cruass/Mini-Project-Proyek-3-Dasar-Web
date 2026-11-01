@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:pelapor'])->group(function () {
     Route::resource('reports', ReportController::class)
-        ->only(['index', 'create', 'store', 'show']);
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update']);
 });
 
 require __DIR__.'/auth.php';

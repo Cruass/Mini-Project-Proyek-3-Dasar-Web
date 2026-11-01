@@ -4,7 +4,7 @@
     <div>
         <x-input-label for="area_id" value="Wilayah" />
         <select id="area_id" name="area_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-            <option value="">-- Pilih wilayah --</option>
+            <option value="" disabled @selected(old('area_id', $r?->area_id) == '')>-- Pilih wilayah --</option>
             @foreach ($areas as $area)
                 <option value="{{ $area->id }}" @selected(old('area_id', $r?->area_id) == $area->id)>{{ $area->nama }}</option>
             @endforeach
@@ -52,5 +52,18 @@
         <x-text-input id="waktu_kejadian" name="waktu_kejadian" type="datetime-local" class="mt-1 block w-full"
             :value="old('waktu_kejadian', $r?->waktu_kejadian?->format('Y-m-d\TH:i'))" required />
         <x-input-error :messages="$errors->get('waktu_kejadian')" class="mt-2" />
+    </div>
+
+    <div>
+        <x-input-label for="evidence" value="Bukti pendukung (JPG, PNG, atau PDF, maksimal 2 MB)" />
+        <input id="evidence" name="evidence" type="file" accept=".jpg,.jpeg,.png,.pdf" class="mt-1 block w-full text-sm" />
+        @if ($r?->evidence_path)
+            <p class="mt-1 text-sm text-gray-500">
+                File saat ini:
+                <a href="{{ asset('storage/' . $r->evidence_path) }}" target="_blank" class="text-blue-600 underline">lihat</a>.
+                Pilih file baru untuk menggantinya.
+            </p>
+        @endif
+        <x-input-error :messages="$errors->get('evidence')" class="mt-2" />
     </div>
 </div>
