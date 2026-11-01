@@ -18,11 +18,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'role'];
+
+    /**
+     * Check if the user is a reporter.
+     */
+    public function isPelapor(): bool { return $this->role === 'pelapor'; }
+public function isRelawan(): bool { return $this->role === 'relawan'; }
+public function isKoordinator(): bool { return $this->role === 'koordinator'; }
 
     /**
      * The attributes that should be hidden for serialization.
