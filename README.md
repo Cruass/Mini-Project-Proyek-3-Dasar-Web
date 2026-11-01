@@ -1,59 +1,104 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Lapor Karhutla
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Mini Project Proyek 3 - D3 Teknik Informatika
+Kasus B: Pelaporan dan Pemantauan Kebakaran Hutan dan Lahan
 
-## About Laravel
+## Identitas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Nama       : Muhammad Rayhan Maulana Farid
+- NIM        : 25151105
+- Kelas      : 2B-D3
+- Repository : https://github.com/Cruass/Mini-Project-Proyek-3-Dasar-Web
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Deskripsi Singkat
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Aplikasi web komunitas untuk melaporkan, meninjau, meneruskan, dan memantau
+indikasi kebakaran hutan dan lahan. Terdapat tiga fungsi pengguna:
+Pelapor, Relawan Pemantau, dan Koordinator Relawan.
 
-## Learning Laravel
+## Kebutuhan Environment
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- PHP 8.2 atau lebih baru
+- Composer
+- Node.js dan npm
+- MySQL atau MariaDB (contoh: XAMPP)
+- Git
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Langkah Instalasi
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/Cruass/Mini-Project-Proyek-3-Dasar-Web.git
+cd Mini-Project-Proyek-3-Dasar-Web
+composer install
+copy .env.example .env      
+php artisan key:generate
+npm install
+npm run build
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Konfigurasi Database
 
-### Premium Partners
+1. Nyalakan MySQL (misalnya lewat XAMPP).
+2. Buat database kosong bernama `db_miniproject_karhutla`.
+3. Sesuaikan bagian berikut pada file `.env` bila perlu:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_miniproject_karhutla
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Contributing
+## Migration dan Seeding
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+php artisan migrate --seed
+php artisan storage:link
+```
 
-## Code of Conduct
+Untuk mengulang dari data awal: `php artisan migrate:fresh --seed`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Akun Demo
 
-## Security Vulnerabilities
+Semua akun memakai password: `password`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Peran               | Email                   |
+|---------------------|-------------------------|
+| Pelapor 1           | pelapor1@gmail.com    |
+| Pelapor 2           | pelapor2@gmail.com    |
+| Relawan Pemantau    | relawan@gmail.com     |
+| Koordinator Relawan | koordinator@gmail.com |
 
-## License
+Akun baru yang mendaftar lewat halaman Daftar otomatis menjadi Pelapor.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Menjalankan Aplikasi
+
+```bash
+php artisan serve
+```
+
+Buka http://127.0.0.1:8000
+
+## Alur Status Laporan
+
+`baru` -> `ditinjau` -> `diteruskan` -> `selesai`
+
+| Aksi                    | Pelaku      | Dari       | Ke         |
+|-------------------------|-------------|------------|------------|
+| Tinjau + beri catatan   | Relawan     | baru       | ditinjau   |
+| Catat penerusan         | Koordinator | ditinjau   | diteruskan |
+| Tandai selesai          | Koordinator | diteruskan | selesai    |
+
+## Business Rule
+
+- BR-01: Pelapor hanya dapat mengubah laporan yang berstatus `baru`.
+- BR-02: Status hanya dapat maju satu langkah sesuai urutan alur.
+- BR-03: Laporan hanya dapat diteruskan jika sudah memiliki catatan relawan.
+
+## Catatan
+
+- Seluruh data pada aplikasi adalah data dummy.
+- Status `selesai` berarti proses pada aplikasi komunitas selesai, bukan
+  pernyataan resmi bahwa kebakaran telah padam.
