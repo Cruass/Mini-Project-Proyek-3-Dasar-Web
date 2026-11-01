@@ -10,7 +10,7 @@
             @endif
 
             <a href="{{ route('reports.create') }}" class="inline-block mb-4 px-4 py-2 bg-red-600 text-white rounded">+ Buat Laporan</a>
-
+            @include('reports._filter', ['action' => route('reports.index')])
             <div class="bg-white shadow rounded overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-100 text-left">

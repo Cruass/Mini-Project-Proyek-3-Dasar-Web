@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Area;
 
 class ReportMonitorController extends Controller
 {
-    public function index()
-    {
-        $reports = Report::with(['area', 'pelapor'])
-            ->latest()
-            ->paginate(10);
+   public function index(Request $request)
+{
+    $filters = $request->only(['q', 'area_id', 'status', 'tingkat']);
 
-        return view('monitor.index', compact('reports'));
-    }
+    $reports = Report::with(['area', 'pelapor'])
+        ->filter($filters)
+        ->latest()
+        ->paginate(5);
+
+    $areas = Area::orderBy('nama')->get();
+
+    return view('monitor.index', compact('reports', 'areas'));
+}
 
     public function show(Report $report)
     {

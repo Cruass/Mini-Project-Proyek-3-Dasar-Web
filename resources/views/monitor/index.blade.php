@@ -5,6 +5,7 @@
 
     <div class="py-8">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            @include('reports._filter', ['action' => route('monitor.reports.index')])
             <div class="bg-white shadow rounded overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-100 text-left">

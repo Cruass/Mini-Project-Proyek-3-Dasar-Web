@@ -62,4 +62,18 @@ public function punyaCatatanRelawan(): bool
     return filled($this->catatan_relawan);
 }
 
+public function scopeFilter($query, array $filters)
+{
+    return $query
+        ->when($filters['q'] ?? null, function ($q, $kata) {
+            $q->where(function ($q) use ($kata) {
+                $q->where('judul', 'like', "%{$kata}%")
+                  ->orWhere('kondisi', 'like', "%{$kata}%");
+            });
+        })
+        ->when($filters['area_id'] ?? null, fn ($q, $area) => $q->where('area_id', $area))
+        ->when($filters['status'] ?? null, fn ($q, $status) => $q->where('status', $status))
+        ->when($filters['tingkat'] ?? null, fn ($q, $tingkat) => $q->where('tingkat', $tingkat));
+}
+
 }

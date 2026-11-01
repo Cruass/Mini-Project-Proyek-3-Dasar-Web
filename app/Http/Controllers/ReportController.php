@@ -12,14 +12,19 @@ use Illuminate\Support\Facades\Storage;
 class ReportController extends Controller
 {
     public function index(Request $request)
-    {
-        $reports = $request->user()->reports()
-            ->with('area')
-            ->latest()
-            ->paginate(10);
+{
+    $filters = $request->only(['q', 'area_id', 'status', 'tingkat']);
 
-        return view('reports.index', compact('reports'));
-    }
+    $reports = $request->user()->reports()
+        ->with('area')
+        ->filter($filters)
+        ->latest()
+        ->paginate(10);
+
+    $areas = Area::orderBy('nama')->get();
+
+    return view('reports.index', compact('reports', 'areas'));
+}
 
     public function create()
     {
