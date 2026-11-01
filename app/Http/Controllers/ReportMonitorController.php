@@ -16,7 +16,8 @@ class ReportMonitorController extends Controller
     $reports = Report::with(['area', 'pelapor'])
         ->filter($filters)
         ->latest()
-        ->paginate(5);
+        ->paginate(5)
+        ->withQueryString();
 
     $areas = Area::orderBy('nama')->get();
 

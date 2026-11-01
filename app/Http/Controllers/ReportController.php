@@ -20,6 +20,7 @@ class ReportController extends Controller
         ->filter($filters)
         ->latest()
         ->paginate(10);
+        ->withQueryString();
 
     $areas = Area::orderBy('nama')->get();
 
