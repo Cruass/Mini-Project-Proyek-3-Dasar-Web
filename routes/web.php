@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportMonitorController;
+use App\Http\Controllers\AreaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,5 +33,8 @@ Route::middleware(['auth', 'role:relawan,koordinator'])
         Route::get('/reports/{report}', [ReportMonitorController::class, 'show'])->name('reports.show');
         Route::post('/reports/{report}/review', [ReportMonitorController::class, 'review'])->name('reports.review');
     });
-    
+
+    Route::middleware('auth')->get('/areas/{area}/summary', [AreaController::class, 'summary'])
+    ->name('areas.summary');
+
 require __DIR__.'/auth.php';
